@@ -31,20 +31,17 @@ module LessAccounting
         when :get
           request.url(path, params)
         when :put
-          request.url(path)
-          request.body = params
-          request.headers['Accept'] = 'application/json'
-          request.headers['Content-Type'] = 'application/json'
+          params.merge!({"_method" => 'put'})
+          request.url(path,params)
         when :post
           request.url(path)
           request.body = params
-          request.headers['Accept'] = 'application/json'
-          request.headers['Content-Type'] = 'application/json'
         when :delete
           request.url(path, params)
         end
       end
       
+      p response.body
       Response.create(response.body)
     end
     

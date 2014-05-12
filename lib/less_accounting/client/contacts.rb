@@ -19,21 +19,25 @@ module LessAccounting
       # Create a contact.
       # @endpoint /contacts.xml
       # @method POST
-      def contact_create(params = {})
+      def create_contact(params = {})
         response = post("contacts.xml", params)
       end
 
       # Update a contact.
       # @endpoint /contacts/:id.xml
       # @method PUT
-      def contact_update(contact_id, params = {})
-        response = post("contacts/#{contact_id}.xml", params)
+      def update_contact(contact_id, params = {})
+        prefixed_params = Hash.new
+        params.each do |key,value|
+          prefixed_params["contact[#{key}]"] = value  
+        end        
+        response = put("contacts/#{contact_id}.xml", prefixed_params)
       end
       
       # Delete a contact.
       # @endpoint /contacts/:id.xml
       # @method DELETE
-      def contact_destroy(contact_id, params = {})
+      def destroy_contact(contact_id, params = {})
         response = delete("contacts/#{contact_id}.xml", params)
       end
 
