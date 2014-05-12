@@ -3,42 +3,38 @@ module LessAccounting
     module Contacts
 
       # Get a list of contacts.
-      # @endpoint /contacts.xml
+      # @endpoint /contacts.json
       # @method GET
       def contacts(params = {})
-        response = get("contacts.xml", params)
+        response = get("contacts.json", params)
       end
       
       # Get an individual contact.
-      # @endpoint /contacts/:id.xml
+      # @endpoint /contacts/:id.json
       # @method GET
       def contact(contact_id, params = {})
-        response = get("contacts/#{contact_id}.xml", params)
+        response = get("contacts/#{contact_id}.json", params)
       end
       
       # Create a contact.
-      # @endpoint /contacts.xml
+      # @endpoint /contacts.json
       # @method POST
       def create_contact(params = {})
-        response = post("contacts.xml", params)
+        response = post("contacts.json", create_prefixed_params('contact', params))
       end
 
       # Update a contact.
-      # @endpoint /contacts/:id.xml
+      # @endpoint /contacts/:id.json
       # @method PUT
       def update_contact(contact_id, params = {})
-        prefixed_params = Hash.new
-        params.each do |key,value|
-          prefixed_params["contact[#{key}]"] = value  
-        end        
-        response = put("contacts/#{contact_id}.xml", prefixed_params)
+        response = put("contacts/#{contact_id}.json", create_prefixed_params('contact', params))
       end
       
       # Delete a contact.
-      # @endpoint /contacts/:id.xml
+      # @endpoint /contacts/:id.json
       # @method DELETE
       def destroy_contact(contact_id, params = {})
-        response = delete("contacts/#{contact_id}.xml", params)
+        response = delete("contacts/#{contact_id}.json", params)
       end
 
     end

@@ -5,7 +5,7 @@ describe LessAccounting::Client::Contacts do
   before do
     @client = LessAccounting.client({username: 'tester', password: 'testing', domain: 'testdomain', api_key: 'secret-key'})
   end
-  
+
   describe ':contacts' do
     it 'should retrieve a list of contacts' do
       stub_get(path, 'secret-key').with(headers: set_headers).to_return(body: response_contacts_xml, status: 200)
@@ -27,7 +27,7 @@ describe LessAccounting::Client::Contacts do
   # describe ':contact_create' do
   #   it 'should create a new contact' do
   #     stub_post(path).with(body: params, headers: set_headers).to_return(body: response_contact_xml, status: 200)
-  #     response = @client.contact_create(params)
+  #     response = @client.create_contact(params)
   #     response.should_not be_nil
   #     response.contact.id.should == 1
   #   end
@@ -35,8 +35,8 @@ describe LessAccounting::Client::Contacts do
   # 
   # describe ':contact_update' do
   #   it 'should update a contact' do
-  #     stub_post(path(1)).with(body: params, headers: set_headers).to_return(body: response_contact_xml, status: 200)
-  #     response = @client.contact_update(1, params)
+  #     stub_put(path(1)).with(body: params, headers: set_headers).to_return(body: response_contact_xml, status: 200)
+  #     response = @client.update_contact(1, params)
   #     response.should_not be_nil
   #     response.contact.id.should == 1
   #   end
@@ -45,7 +45,7 @@ describe LessAccounting::Client::Contacts do
   describe ':contact_destroy' do
     it 'should remove a single contact' do
       stub_delete(path(1), 'secret-key').with(headers: set_headers).to_return(body: response_contact_xml, status: 200)
-      response = @client.contact_destroy(1)
+      response = @client.destroy_contact(1)
       response.should_not be_nil
       response.contact.id.should == 1
     end
@@ -53,94 +53,94 @@ describe LessAccounting::Client::Contacts do
 
   def path(id = nil)
     if id
-      "contacts/#{id}.xml"
+      "contacts/#{id}.json"
     else
-      "contacts.xml"
+      "contacts.json"
     end
   end
 
   def params
     {
-      'first_name'     => 'New',
-      'last_name'      => 'User',
-      'active'         => true,
-      'email'          => 'new.user@testing.com',
-      'note'           => 'This user was created for testing.',
-      'phone_number_1' => '987-0798-6578'
+      'contact[first_name]'     => 'New',
+      'contact[last_name]'      => 'User',
+      'contact[active]'         => true,
+      'contact[email]'          => 'new.user@testing.com',
+      'contact[note]'           => 'This user was created for testing.',
+      'contact[phone_number_1]' => '987-0798-6578'
     }
   end
 
   def response_contacts_xml
     <<-done
-    <?xml version="1.0" encoding="UTF-8"?>
-    <contacts type="array">
-      <contact>
-        <active type="boolean">true</active>
-        <address nil="true"/>
-        <basecamp-id type="integer" nil="true"/>
-        <company-name nil="true"/>
-        <created-at type="datetime">2008-05-15T14:00:01Z</created-at>
-        <first-name>First</first-name>
-        <google-id nil="true"/>
-        <highrise-id type="integer" nil="true"/>
-        <id type="integer">85</id>
-        <is-contractor type="boolean" nil="true"/>
-        <is-employee type="boolean">true</is-employee>
-        <last-name>a</last-name>
-        <name>a, First</name>
-        <note nil="true"/>
-        <updated-at type="datetime">2008-05-15T14:00:01Z</updated-at>
-        <email></email>
-        <phone-number-1 nil="true"/>
-        <phone-number-2 nil="true"/>
-      </contact>
-      <contact>
-        <active type="boolean">true</active>
-        <address nil="true"/>
-        <basecamp-id type="integer" nil="true"/>
-        <company-name nil="true"/>
-        <created-at type="datetime">2008-05-15T14:00:01Z</created-at>
-        <first-name>First</first-name>
-        <google-id nil="true"/>
-        <highrise-id type="integer" nil="true"/>
-        <id type="integer">85</id>
-        <is-contractor type="boolean" nil="true"/>
-        <is-employee type="boolean">true</is-employee>
-        <last-name>a</last-name>
-        <name>a, First</name>
-        <note nil="true"/>
-        <updated-at type="datetime">2008-05-15T14:00:01Z</updated-at>
-        <email></email>
-        <phone-number-1 nil="true"/>
-        <phone-number-2 nil="true"/>
-      </contact>
-    </contacts>
+    {"contacts": [
+      {
+        "active":true,
+        "address":null,
+        "basecamp_id":null,
+        "company_name":"company name",
+        "created_at":"2008-05-15T14:00:01Z",
+        "first_name":"first",
+        "google_id":null,
+        "highrise_id":null,
+        "id":1,
+        "is_contractor":false,
+        "is_employee":false,
+        "last_name":"contact",
+        "name":"contact, first",
+        "note":null,
+        "updated_at":"2008-05-15T14:00:01Z",
+        "email":"sjdf@lsdjf.com",
+        "phone_number_1":"555-555-1212",
+        "phone_number_2":null
+      },
+      {
+        "active":true,
+        "address":null,
+        "basecamp_id":null,
+        "company_name":"company name",
+        "created_at":"2008-05-15T14:00:01Z",
+        "first_name":"first",
+        "google_id":null,
+        "highrise_id":null,
+        "id":1,
+        "is_contractor":false,
+        "is_employee":false,
+        "last_name":"contact",
+        "name":"contact, first",
+        "note":null,
+        "updated_at":"2008-05-15T14:00:01Z",
+        "email":"sjdf@lsdjf.com",
+        "phone_number_1":"555-555-1212",
+        "phone_number_2":null
+      }
+    ]}
     done
   end
   
   def response_contact_xml
     <<-done
-    <?xml version="1.0" encoding="UTF-8"?>
-    <contact>
-      <active type="boolean">true</active>
-      <address nil="true"/>
-      <basecamp-id type="integer" nil="true"/>
-      <company-name>company name</company-name>
-      <created-at type="datetime">2008-05-15T14:00:01Z</created-at>
-      <first-name>first</first-name>
-      <google-id nil="true"/>
-      <highrise-id type="integer" nil="true"/>
-      <id type="integer">1</id>
-      <is-contractor type="boolean">false</is-contractor>
-      <is-employee type="boolean">false</is-employee>
-      <last-name>contact</last-name>
-      <name>contact, first</name>
-      <note nil="true"/>
-      <updated-at type="datetime">2008-05-15T14:00:01Z</updated-at>
-      <email>sjdf@lsdjf.com</email>
-      <phone-number-1>555-555-1212</phone-number-1>
-      <phone-number-2 nil="true"/>
-    </contact>
+    {"contact":
+      {
+        "active":true,
+        "address":null,
+        "basecamp_id":null,
+        "company_name":"company name",
+        "created_at":"2008-05-15T14:00:01Z",
+        "first_name":"first",
+        "google_id":null,
+        "highrise_id":null,
+        "id":1,
+        "is_contractor":false,
+        "is_employee":false,
+        "last_name":"contact",
+        "name":"contact, first",
+        "note":null,
+        "updated_at":"2008-05-15T14:00:01Z",
+        "email":"sjdf@lsdjf.com",
+        "phone_number_1":"555-555-1212",
+        "phone_number_2":null
+      }
+    }
     done
   end
 

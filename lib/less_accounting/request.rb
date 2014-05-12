@@ -37,11 +37,11 @@ module LessAccounting
           request.url(path)
           request.body = params
         when :delete
+          params.merge!({"_method" => 'delete'})
           request.url(path, params)
         end
       end
       
-      p response.body
       Response.create(response.body)
     end
     

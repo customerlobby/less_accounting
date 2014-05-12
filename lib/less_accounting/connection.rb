@@ -10,7 +10,7 @@ module LessAccounting
       Faraday::Connection.new(options) do |connection|
         connection.use FaradayMiddleware::LessAccountingAuth, username, password, api_key
         connection.use FaradayMiddleware::Mashify
-        connection.use Faraday::Response::ParseXml
+        connection.use Faraday::Response::ParseJson
         connection.adapter(adapter)
       end
     end

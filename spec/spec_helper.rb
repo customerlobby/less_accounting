@@ -11,15 +11,15 @@ def stub_get(path, key)
 end
 
 def stub_post(path)
-  stub_request(:post, domain + path)
+  stub_request(:post, domain + path + "?api_key=#{key}", :content_type => 'application/x-www-form-urlencoded')
 end
 
 def stub_put(path)
-  stub_request(:put, domain + path)
+  stub_request(:put, domain + path + "?_method=put&api_key=#{key}", :content_type => 'application/x-www-form-urlencoded')
 end
 
 def stub_delete(path, key)
-  stub_request(:delete, domain + path + "?api_key=#{key}")
+  stub_request(:delete, domain + path + "?_method=delete&api_key=#{key}")
 end
 
 def domain
