@@ -6,7 +6,7 @@ module LessAccounting
       # @endpoint /invoices.json
       # @method GET
       def invoices(params = {})
-        response = get("invoices.json", params = {})
+        response = get("invoices.json", params)
       end
       
       # Get an individual invoice.
